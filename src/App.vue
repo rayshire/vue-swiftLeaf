@@ -5,7 +5,7 @@
 <template>
 
   <div>
-    <el-button type="success">Success</el-button>
+    <el-button type="primary">Success</el-button>
   </div>
 </template>
 

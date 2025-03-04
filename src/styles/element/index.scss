@@ -1,0 +1,32 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      "base": #ff6b35,
+      // 主色-枫叶橙（比常规橙更偏红）
+    ),
+    "success": (
+      // 成功色
+      "base": #8bb174 // 成功色-秋杉绿（与枫叶橙互补）,,,,,,,
+    ),
+    "warning": (
+      // 警告色
+      "base": #ff9f1c // 警告色-银杏黄,,,,,,
+    ),
+    "danger": (
+      // 危险色
+      "base": #d64045 // 危险色-枫叶红,,,,,
+    ),
+    "error": (
+      // 错误色
+      "base": #b23a48 // 错误色-深秋浆果红,,,,
+    ),
+  ),
+  $text-color: (
+    "primary": #2d2d2d,
+    // 主文字-深灰（增强橙灰对比）
+    "regular": #5c5c5c,
+  ),
+  $border-color: (
+    "light": #e6e1d8 // 边框-浅米灰（模拟树皮质感）,,,
+  )
+);
