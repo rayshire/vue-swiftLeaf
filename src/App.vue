@@ -1,11 +1,11 @@
 <script setup lang="ts" name="App">
-
 </script>
 
 <template>
 
   <div>
-    <el-button type="primary">Success</el-button>
+    <!-- 这里是路由视图，用于展示不同的页面 -->
+    <router-view></router-view>
   </div>
 </template>
 
