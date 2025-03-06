@@ -5,7 +5,7 @@
         <RouterLink to="/">轻枫集市</RouterLink>
       </h1>
       <ul class="header-nav">
-        <li class="home" v-for="item in categoryList" :key="item.id">
+        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
@@ -21,27 +21,12 @@
 
 <script setup lang="ts" name="LayoutHeader">
 
-import { getCategoryApi } from '@/apis/layout'
 
-import { onBeforeMount, ref } from 'vue'
+import { useCategoryStore } from '@/stores/category'
 
-const categoryList = ref([{ id: 1, name: '首页' }])
+const categoryStore = useCategoryStore()
 
-onBeforeMount(() => {
-  getCategory()
-})
-//封装获取分类数据的axios请求
 
-async function getCategory() {
-  try {
-    const response = await getCategoryApi()
-    console.log(response)
-    // 深拷贝response，解决该死的ts类型检查
-    categoryList.value = JSON.parse(JSON.stringify(response)).result
-  } catch (error) {
-    console.error('获取分类数据失败:', error)
-  }
-}
 </script>
 
 <style scoped lang="scss">
