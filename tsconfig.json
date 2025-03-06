@@ -7,5 +7,9 @@
     {
       "path": "./tsconfig.app.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "noImplicitAny": false, // 关闭隐式未定义的类型检查
+    "strict": false // 关闭严格模式
+  }
 }

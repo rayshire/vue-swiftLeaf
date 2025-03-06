@@ -8,3 +8,17 @@ export function getBannerAPI() {
     method: "get",
   });
 }
+export function getNewAPI() {
+  // 使用httpI方法，发送get请求，获取首页数据
+  return httpI({
+    url: "/home/new",
+    method: "get",
+  });
+}
+export function getHotAPI() {
+  // 使用httpI方法，发送get请求，获取首页数据
+  return httpI({
+    url: "/home/hot",
+    method: "get",
+  });
+}
