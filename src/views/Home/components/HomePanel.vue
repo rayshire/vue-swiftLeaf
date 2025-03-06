@@ -7,6 +7,7 @@
           <h3>
             {{ title }}<small>{{ subTitle }}</small>
           </h3>
+          <slot name="s1"></slot>
         </div>
         <!-- 主体内容区域 -->
         <!--默认插槽 -->

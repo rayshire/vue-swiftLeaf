@@ -9,16 +9,24 @@ export function getBannerAPI() {
   });
 }
 export function getNewAPI() {
-  // 使用httpI方法，发送get请求，获取首页数据
+  // 获取新鲜好物数据
   return httpI({
     url: "/home/new",
     method: "get",
   });
 }
 export function getHotAPI() {
-  // 使用httpI方法，发送get请求，获取首页数据
+  // 获取人气推荐数据
   return httpI({
     url: "/home/hot",
     method: "get",
   });
 }
+
+export const getGoodsAPI = () => {
+  // 获取所有商品模块数据
+  return httpI({
+    url: "/home/goods",
+    method: "get",
+  });
+};
