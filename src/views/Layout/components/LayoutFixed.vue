@@ -1,5 +1,5 @@
 <template>
-  <div class="app-header-sticky" :class="{ show: y > 78 }">
+  <div class="app-header-sticky" :class="{ show: y >= 105 }">
     <!-- 动态类名滚动到一定高度显示 -->
     <div class="container">
       <RouterLink class="logo" to="/" />
