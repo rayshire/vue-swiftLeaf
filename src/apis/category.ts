@@ -5,7 +5,7 @@ import httpI from "@/utils/http";
  * @param {*} id 分类id
  * @return {*}
  */
-export function getTopCategoryAPI(id) {
+export function getTopCategoryAPI(id: string | string[]) {
   return httpI({
     url: "/category",
     params: {
