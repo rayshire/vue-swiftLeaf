@@ -17,6 +17,7 @@
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
+        <GoodsItem v-for="item in goodList" :key="item.id" :goods="item" />
       </div>
     </div>
   </div>
@@ -24,10 +25,12 @@
 </template>
 
 <script setup lang="ts" name="SubCategory">
-import { getCategoryFilterAPI } from '@/apis/category'
+import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category'
 import { useRoute } from "vue-router";
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 
+//获取面包屑导航数据
 const filterData = ref({
   parentId: '',
   parentName: '',
@@ -45,8 +48,28 @@ async function getFilterData(id: string | string[]) {
   }
 }
 getFilterData(route.params.id)
+//获取基础列表数据
+//商品列表
+const goodList = ref([])
+//请求数据
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: 'publishTime'
+})
 
+async function getGoodList() {
+  try {
+    const response = await getSubCategoryAPI(reqData.value);
+    // 深拷贝response，解决该死的ts类型检查
+    goodList.value = JSON.parse(JSON.stringify(response)).result.items;
+  } catch (error) {
+    console.error("获取分类数据失败:", error);
+  }
+}
 
+onMounted(() => getGoodList())
 </script>
 
 <style scoped lang="scss">
