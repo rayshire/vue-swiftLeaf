@@ -1,6 +1,7 @@
 # vue-swiftLeaf
 
 This template should help get you started developing with Vue 3 in Vite.
+vue+ts
 
 ## Recommended IDE Setup
 
