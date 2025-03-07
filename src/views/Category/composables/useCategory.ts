@@ -19,7 +19,7 @@ export function useCategory() {
       // 深拷贝response，解决该死的ts类型检查
       categoryData.value = JSON.parse(JSON.stringify(response)).result;
     } catch (error) {
-      console.error("获取人气推荐数据失败:", error);
+      console.error("获取商品分类失败:", error);
     }
   }
   onMounted(() => {

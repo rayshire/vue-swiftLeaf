@@ -4,9 +4,9 @@
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/' }">居家
+        <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }">{{ filterData.parentName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item>居家生活用品</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ filterData.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
@@ -24,6 +24,28 @@
 </template>
 
 <script setup lang="ts" name="SubCategory">
+import { getCategoryFilterAPI } from '@/apis/category'
+import { useRoute } from "vue-router";
+import { ref } from 'vue';
+
+const filterData = ref({
+  parentId: '',
+  parentName: '',
+  name: '',
+})
+const route = useRoute();
+
+async function getFilterData(id: string | string[]) {
+  try {
+    const response = await getCategoryFilterAPI(id);
+    // 深拷贝response，解决该死的ts类型检查
+    filterData.value = JSON.parse(JSON.stringify(response)).result;
+  } catch (error) {
+    console.error("获取分类数据失败:", error);
+  }
+}
+getFilterData(route.params.id)
+
 
 </script>
 
