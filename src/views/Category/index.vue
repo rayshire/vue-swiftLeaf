@@ -9,6 +9,14 @@
           <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+      <!-- 轮播图 -->
+      <div class="home-banner">
+        <el-carousel height="500px">
+          <el-carousel-item v-for="item in bannerList" :key="item.id">
+            <img :src="item.imgUrl" alt="">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +24,9 @@
 import { getTopCategoryAPI } from '@/apis/category'
 import { ref, onUpdated } from 'vue'
 import { useRoute } from 'vue-router'
+import { getBannerAPI } from '@/apis/home'
+
+const bannerList = ref([])
 const categoryData = ref({
   id: '',
   name: '',
@@ -31,6 +42,18 @@ async function getCategory(id: string | string[]) {
     console.error("获取人气推荐数据失败:", error);
   }
 }
+async function getBanner() {
+  try {
+    const response = await getBannerAPI({
+      distributionSite: '2'
+    });
+    // 深拷贝response，解决该死的ts类型检查
+    bannerList.value = JSON.parse(JSON.stringify(response)).result;
+  } catch (error) {
+    console.error("获取分类数据失败:", error);
+  }
+}
+getBanner()
 getCategory(route.params.id)
 //在路由变化时重新获取数据
 onUpdated(() => {

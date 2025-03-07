@@ -1,11 +1,16 @@
 import httpI from "@/utils/http";
 
 // 导出一个函数，用于获取轮播图数据
-export function getBannerAPI() {
+export function getBannerAPI(params = { distributionSite: "1" }) {
   // 使用httpI方法，发送get请求，获取轮播图数据
+  //params = { distributionSite: "1" } 为默认参数
+  const { distributionSite } = params;
   return httpI({
     url: "home/banner",
     method: "get",
+    params: {
+      distributionSite,
+    },
   });
 }
 export function getNewAPI() {

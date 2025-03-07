@@ -49,4 +49,15 @@ async function getBanner() {
     height: 500px;
   }
 }
+
+.home-banner {
+  width: 1240px;
+  height: 500px;
+  margin: 0 auto;
+
+  img {
+    width: 100%;
+    height: 500px;
+  }
+}
 </style>
