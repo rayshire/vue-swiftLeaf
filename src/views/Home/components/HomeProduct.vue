@@ -22,7 +22,7 @@
 
 <script setup lang="ts" name="HomeProduct">
 import HomePanel from './HomePanel.vue'
-import GoodsItem from './Goodsitem.vue'
+import GoodsItem from './GoodsItem.vue'
 import { getGoodsAPI } from '@/apis/home'
 import { ref } from 'vue'
 const goodsProduct = ref([])
@@ -88,7 +88,7 @@ getGoodsProduct()
         position: absolute;
 
         left: 10%;
-        top: 30%;
+        top: 40%;
         transform: translate3d(0, -50%, 0);
 
         span {
