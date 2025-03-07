@@ -39,6 +39,10 @@ const router = createRouter({
       component: Login,
     },
   ],
+  //导航到新页面时，滚动到顶部
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;

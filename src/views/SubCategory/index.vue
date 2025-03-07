@@ -17,7 +17,7 @@
       </el-tabs>
       <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
         <!-- 商品列表-->
-        <GoodsItem v-for="item in goodList" :key="item.id" :goods="item" />
+        <GoodsItem v-for="goods in goodList" :goods="goods" :key="goods.id" />
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
 <script setup lang="ts" name="SubCategory">
 import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category'
 import { useRoute } from "vue-router";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 
 //获取面包屑导航数据
@@ -47,7 +47,7 @@ async function getFilterData(id: string | string[]) {
     console.error("获取分类数据失败:", error);
   }
 }
-getFilterData(route.params.id)
+
 //获取基础列表数据
 //商品列表
 const goodList = ref([])
@@ -58,42 +58,49 @@ const reqData = ref({
   pageSize: 20,
   sortField: 'publishTime'
 })
-
-async function getGoodList() {
+watch(() => route.params.id, (newVal) => {
+  reqData.value.categoryId = newVal
+  getGoodList(reqData.value)
+  getFilterData(newVal)
+})
+//获取商品列表
+async function getGoodList(value) {
   try {
-    const response = await getSubCategoryAPI(reqData.value);
+    const response = await getSubCategoryAPI(value);
     // 深拷贝response，解决该死的ts类型检查
     goodList.value = JSON.parse(JSON.stringify(response)).result.items;
   } catch (error) {
     console.error("获取分类数据失败:", error);
   }
 }
-
-onMounted(() => getGoodList())
+onMounted(() => {
+  getGoodList(reqData.value);
+})
+getFilterData(route.params.id)
 
 //tab切换
 function tabChange() {
   reqData.value.page = 1
-  getGoodList()
+  getGoodList(reqData.value)
 }
 //无限加载
 const disabled = ref(false)
 async function load() {
-  // 如果已经加载了三页数据，停止加载
-  if (reqData.value.page >= 3) {
-    disabled.value = true
-    return
-  }
+  // // 如果已经加载了三页数据，停止加载
+  // if (reqData.value.page >= 3) {
+  //   disabled.value = true
+  //   return
+  // }
   // 获取下一页的数据
   reqData.value.page++
   // 深拷贝response，解决该死的ts类型检查
   const res = JSON.parse(JSON.stringify(await getSubCategoryAPI(reqData.value)))
   // 将新数据添加到列表中,使用展开运算符
   goodList.value = [...goodList.value, ...res.result.items]
-  // // 加载完毕 停止监听
-  // if (res.result.items.length === 0) {
-  //   disabled.value = true
-  // }
+  // 加载完毕 停止监听
+  if (res.result.items.length === 0) {
+    disabled.value = true
+  }
 }
 
 </script>
