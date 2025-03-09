@@ -17,7 +17,7 @@
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImgView />
+              <ImgView :image-list="goods.mainPictures" />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -126,6 +126,11 @@ const goods = ref({
   price: 100,
   oldPrice: 200,
   desc: '这是一双好鞋',
+  mainPictures: [
+    '1.jpg',
+    '2.jpg',
+    '3.jpg'
+  ],
   details: {
     properties: [
       {
@@ -169,7 +174,7 @@ async function getGoods(id: string | string[]) {
   }
 }
 onMounted(() => getGoods(route.params.id))
-
+getGoods(route.params.id)
 </script>
 
 <style scoped lang="scss">
