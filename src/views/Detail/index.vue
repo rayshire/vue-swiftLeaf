@@ -100,8 +100,8 @@
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <DetailHot />
-              <DetailHot />
+              <DetailHot :type="1" />
+              <DetailHot :type="2" />
             </div>
           </div>
         </div>
