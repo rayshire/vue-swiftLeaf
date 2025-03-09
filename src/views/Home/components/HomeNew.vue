@@ -2,7 +2,7 @@
   <HomePanel title="新鲜好物" sub-title="——多种商品，待君挑选">
     <ul class="goods-list">
       <li v-for="item in newList" :key="item.id">
-        <RouterLink to="/">
+        <RouterLink :to="`/detail/${item.id}`">
           <img v-img-lazy="item.picture" alt="" />
           <p class="name">{{ item.name }}</p>
           <p class="price">&yen;{{ item.price }}</p>
