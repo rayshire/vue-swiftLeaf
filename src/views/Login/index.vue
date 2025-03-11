@@ -19,7 +19,8 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form :model="userInfo" :rules="rules" label-position="right" label-width="60px" status-icon>
+            <el-form ref="formRef" :model="userInfo" :rules="rules" label-position="right" label-width="60px"
+              status-icon>
               <el-form-item prop="account" label="账户">
                 <el-input v-model="userInfo.account" placeholder="请输入账号" />
               </el-form-item>
@@ -31,7 +32,7 @@
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="login">点击登录</el-button>
             </el-form>
           </div>
         </div>
@@ -56,6 +57,7 @@
 </template>
 
 <script setup lang="ts" name="Login">
+
 //表单校验（账号+密码）
 import { ref } from 'vue'
 // 表单数据对象
@@ -82,6 +84,21 @@ const rules = {
       }
     }
   ]
+}
+//统一校验
+//获取表单实例对象
+const formRef = ref(null)
+
+function login() {
+  // 调用表单校验方法
+  formRef.value.validate((valid) => {
+    //valid为true表示所有表单校验都通过
+    if (valid) {
+      console.log('登录成功')
+    } else {
+      console.log('登录失败')
+    }
+  })
 }
 
 </script>
