@@ -19,15 +19,15 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" status-icon>
-              <el-form-item label="账户">
-                <el-input />
+            <el-form :model="userInfo" :rules="rules" label-position="right" label-width="60px" status-icon>
+              <el-form-item prop="account" label="账户">
+                <el-input v-model="userInfo.account" placeholder="请输入账号" />
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input />
+              <el-form-item prop="password" label="密码">
+                <el-input v-model="userInfo.password" type="password" placeholder="请输入密码" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large">
+              <el-form-item prop="agree" label-width=" 22px">
+                <el-checkbox size="large" v-model="userInfo.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
@@ -56,6 +56,33 @@
 </template>
 
 <script setup lang="ts" name="Login">
+//表单校验（账号+密码）
+import { ref } from 'vue'
+// 表单数据对象
+const userInfo = ref({
+  account: '1311111111',
+  password: '123456',
+  agree: false
+})
+
+// 规则数据对象
+const rules = {
+  account: [
+    { required: true, message: '用户名不能为空', tigger: 'blur' },
+    { min: 6, max: 24, message: '用户名长度要求6-14个字符', tigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '密码不能为空', tigger: 'blur' },
+    { min: 6, max: 24, message: '密码长度要求6-14个字符', tigger: 'blur' }
+  ],
+  agree: [
+    {
+      validator: (rule, val, callback) => {
+        return val ? callback() : new Error('请先同意协议')
+      }
+    }
+  ]
+}
 
 </script>
 
