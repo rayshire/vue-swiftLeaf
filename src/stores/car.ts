@@ -54,15 +54,27 @@ export const useCarStore = defineStore(
       cartList.value.forEach((item) => (item.selected = selected));
     };
     const isAll = computed(() => cartList.value.every((item) => item.selected));
+    const selectedCount = computed(() => {
+      return cartList.value.reduce((prev, item) => {
+        return prev + (item.selected ? item.count : 0);
+      }, 0);
+    });
+    const selectedPrice = computed(() => {
+      return cartList.value.reduce((prev, item) => {
+        return prev + (item.selected ? item.count * item.price : 0);
+      }, 0);
+    });
     return {
       total,
       totalPrice,
-      delCart,
       cartList,
+      isAll,
+      selectedCount,
+      selectedPrice,
+      delCart,
       addCart,
       singleCheck,
       allCheck,
-      isAll,
     };
   },
   {
