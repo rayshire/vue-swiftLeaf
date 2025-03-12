@@ -18,10 +18,18 @@ export const useUserStore = defineStore(
       const res = await loginApi({ account, password });
       userInfo.value = JSON.parse(JSON.stringify(res)).result;
     };
+    const logOut = () => {
+      userInfo.value = {
+        account: "",
+        password: "",
+        token: "",
+      };
+    };
     // 3. 以对象的格式把state和action return
     return {
       userInfo,
       getUserInfo,
+      logOut,
     };
   },
   {
