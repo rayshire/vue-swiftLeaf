@@ -228,7 +228,7 @@ function addCart() {
       count: count.value,
       skuId: skuObj.skuId,
       specs: skuObj.specsText,
-      selected: true
+      selected: false
     })
     return
   }

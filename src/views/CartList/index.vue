@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox />
+                <el-checkbox :model-value="cartStore.isAll" @change="allCheck" />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -20,7 +20,8 @@
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
                 <!-- 单选框 -->
-                <el-checkbox />
+                <!-- 不能用v-model,修改pinia的值只能用action -->
+                <el-checkbox :model-value="i.selected" @change="singleCheck(i)" />
               </td>
               <td>
                 <div class="goods">
@@ -85,6 +86,12 @@ const cartStore = useCarStore()
 
 function delCart(item) {
   console.log(item)
+}
+function singleCheck(i) {
+  cartStore.singleCheck(i.skuId)
+}
+function allCheck(selected: boolean) {
+  cartStore.allCheck(selected)
 }
 </script>
 

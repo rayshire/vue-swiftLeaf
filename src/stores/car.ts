@@ -44,12 +44,25 @@ export const useCarStore = defineStore(
         return prev + item.count * item.price;
       }, 0);
     });
+    const singleCheck = (skuId: string) => {
+      const item = cartList.value.find((item) => skuId === item.skuId);
+      item.selected = !item.selected;
+    };
+    //
+    const allCheck = (selected: boolean) => {
+      // 把cartList中的每一项的selected都设置为当前的全选框状态
+      cartList.value.forEach((item) => (item.selected = selected));
+    };
+    const isAll = computed(() => cartList.value.every((item) => item.selected));
     return {
       total,
       totalPrice,
       delCart,
       cartList,
       addCart,
+      singleCheck,
+      allCheck,
+      isAll,
     };
   },
   {
