@@ -57,11 +57,12 @@
 </template>
 
 <script setup lang="ts" name="Login">
-import { loginApi } from '@/apis/user'
+import { useUserStore } from '@/stores/user'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const userStore = useUserStore()
 //表单校验（账号+密码）
 import { ref } from 'vue'
 // 表单数据对象
@@ -100,7 +101,7 @@ function login() {
     //valid为true表示所有表单校验都通过
     if (valid) {
       console.log('登录成功')
-      await loginApi({ account, password })
+      await userStore.getUserInfo({ account, password })
       // 1. 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
       // 2. 跳转首页
