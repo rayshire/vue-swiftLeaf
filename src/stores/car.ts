@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export const useCarStore = defineStore(
   "car",
@@ -27,10 +27,26 @@ export const useCarStore = defineStore(
       // 思路：
       // 1. 找到要删除项的下标值 - splice
       // 2. 使用数组的过滤方法 - filter
-      const idx = cartList.value.findIndex((item) => skuId === item.skuId);
-      cartList.value.splice(idx, 1);
+      // const idx = cartList.value.findIndex((item) => skuId === item.skuId);
+      // cartList.value.splice(idx, 1);
+      cartList.value = cartList.value.filter((item) => skuId !== item.skuId);
     };
+    //定义getters
+    // 购物车商品总数
+    const total = computed(() => {
+      return cartList.value.reduce((prev, item) => {
+        return prev + item.count;
+      }, 0);
+    });
+    // 购物车商品总价
+    const totalPrice = computed(() => {
+      return cartList.value.reduce((prev, item) => {
+        return prev + item.count * item.price;
+      }, 0);
+    });
     return {
+      total,
+      totalPrice,
       delCart,
       cartList,
       addCart,
