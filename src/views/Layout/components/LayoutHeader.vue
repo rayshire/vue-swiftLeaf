@@ -17,6 +17,7 @@
         <input type="text" placeholder="搜索你想要的物品">
       </div>
       <!-- 头部购物车 -->
+      <HeaderCart />
 
     </div>
   </header>
@@ -26,6 +27,8 @@
 
 
 import { useCategoryStore } from '@/stores/category'
+import HeaderCart from './HeaderCart.vue'
+
 
 const categoryStore = useCategoryStore()
 
