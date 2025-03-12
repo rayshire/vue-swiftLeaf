@@ -16,10 +16,11 @@ export const useUserStore = defineStore(
     };
     // 3. 以对象的格式把state和action return
     return {
+      userInfo,
       getUserInfo,
     };
+  },
+  {
+    persist: true, // 持久化存储, 会把数据存储到localStorage`
   }
-  // {
-  //   persist: true, // 持久化存储
-  // }
 );
