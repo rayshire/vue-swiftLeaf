@@ -3,8 +3,9 @@
     <nav class="topnav">
       <div class="container">
         <ul>
-          <template v-if="false">
-            <li><a href="javascript:;"><i class="iconfont icon-user"></i>方大同rip</a></li>
+          <!-- 通过v-if和v-else指令，根据用户是否登录显示不同的导航，用token判断用户是否登录 -->
+          <template v-if="userStore.userInfo.token !== ''">
+            <li><a href="javascript:;"><i class="iconfont icon-user"></i>rayshire</a></li>
             <li>
               <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
                 <template #reference>
@@ -29,6 +30,9 @@
 </template>
 
 <script setup lang="ts" name="LayoutNav">
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
+
 
 </script>
 <!-- scss Sass 允许将一套 CSS 样式嵌套进另一套样式中，

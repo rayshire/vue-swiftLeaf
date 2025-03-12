@@ -8,7 +8,11 @@ export const useUserStore = defineStore(
   () => {
     // 用户数据和action
     // 1. 利用方法接取定义管理用户数据
-    const userInfo = ref({});
+    const userInfo = ref({
+      account: "",
+      password: "",
+      token: "",
+    });
     // 2. 定义获取接口数据的action函数
     const getUserInfo = async ({ account, password }) => {
       const res = await loginApi({ account, password });
