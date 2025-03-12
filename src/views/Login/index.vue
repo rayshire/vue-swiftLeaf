@@ -57,12 +57,16 @@
 </template>
 
 <script setup lang="ts" name="Login">
-
+import { loginApi } from '@/apis/user'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 //表单校验（账号+密码）
 import { ref } from 'vue'
 // 表单数据对象
 const userInfo = ref({
-  account: '1311111111',
+  account: 'xiaotuxian001',
   password: '123456',
   agree: false
 })
@@ -91,10 +95,16 @@ const formRef = ref(null)
 
 function login() {
   // 调用表单校验方法
-  formRef.value.validate((valid) => {
+  formRef.value.validate(async (valid) => {
+    const { account, password } = userInfo.value
     //valid为true表示所有表单校验都通过
     if (valid) {
       console.log('登录成功')
+      await loginApi({ account, password })
+      // 1. 提示用户
+      ElMessage({ type: 'success', message: '登录成功' })
+      // 2. 跳转首页
+      router.replace({ path: '/' })
     } else {
       console.log('登录失败')
     }
