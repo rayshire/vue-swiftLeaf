@@ -20,7 +20,7 @@
               <p class="count">x{{ i.count }}</p>
             </div>
           </RouterLink>
-          <i class="iconfont icon-close-new"></i>
+          <i class="iconfont icon-close-new" @click="store.delCart(i.skuId)"></i>
         </div>
 
       </div>
