@@ -2,6 +2,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 
 const httpI = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
@@ -29,6 +30,15 @@ httpI.interceptors.response.use(
   (e) => {
     //统一错误提示
     ElMessage.error(e.response.data.message);
+    //401 token过期处理
+    if (e.response.status === 401) {
+      // 1. 清空token
+      const userStore = useUserStore();
+      const router = useRouter();
+      userStore.logOut();
+      // 2. 跳转到登录页
+      router.replace("/login");
+    }
     return Promise.reject(e);
   }
 );
