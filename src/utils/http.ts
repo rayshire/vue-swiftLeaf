@@ -16,7 +16,7 @@ httpI.interceptors.request.use(
     const userStore = useUserStore();
     // 2. 按照后端的要求拼接token数据
     const token = userStore.userInfo.token;
-    if (token !== "") {
+    if (token !== " ") {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

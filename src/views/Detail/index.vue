@@ -8,7 +8,7 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories?.[0].id}` }">{{ goods.categories[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -122,16 +122,42 @@ import 'element-plus/theme-chalk/el-message.css'
 
 const carStore = useCarStore()
 
-const goods = ref({
-  id: 1,
-  name: '抓绒保暖，毛毛虫儿童鞋',
+interface Goods {
+  id: number;
+  name: string;
+  picture: string;
+  salesCount: number;
+  commentCount: number;
+  collectCount: number;
+  price: number;
+  oldPrice: number;
+  desc: string;
+  mainPictures: string[];
+  details: {
+    properties: {
+      name: string;
+      value: string;
+    }[];
+    pictures: string[];
+  };
+  brand: {
+    name: string;
+  };
+  categories: {
+    id: number;
+    name: string;
+  }[];
+}
+const goods = ref<Goods>({
+  id: 0,
+  name: ' ',
   picture: '1.jpg',
   salesCount: 100,
   commentCount: 100,
   collectCount: 100,
   price: 100,
   oldPrice: 200,
-  desc: '这是一双好鞋',
+  desc: ' ',
   mainPictures: [
     '1.jpg',
     '2.jpg',
@@ -155,26 +181,27 @@ const goods = ref({
     ]
   },
   brand: {
-    name: '耐克'
+    name: ' '
   },
   categories: [
     {
       id: 1,
-      name: '母婴'
+      name: ' '
     },
     {
       id: 2,
-      name: '跑步鞋'
+      name: ' '
     }
   ]
 })
 const route = useRoute()
 
-async function getGoods(id: string | string[]) {
+async function getGoods() {
   try {
-    const response = await getDetail(id);
+    const response = await getDetail(route.params.id);
     // 深拷贝response，解决该死的ts类型检查
     goods.value = JSON.parse(JSON.stringify(response)).result;
+    console.log(goods.value)
   } catch (error) {
     console.error("获取商品详情失败:", error);
   }
@@ -211,7 +238,9 @@ function addCart() {
 }
 
 
-onMounted(() => getGoods(route.params.id))
+onMounted(() => {
+  getGoods()
+})
 
 </script>
 
