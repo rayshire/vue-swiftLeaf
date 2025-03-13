@@ -2,6 +2,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { loginApi } from "@/apis/user";
+import { useCarStore } from "./car";
 
 export const useUserStore = defineStore(
   "user",
@@ -18,12 +19,17 @@ export const useUserStore = defineStore(
       const res = await loginApi({ account, password });
       userInfo.value = JSON.parse(JSON.stringify(res)).result;
     };
+    // 退出登录
     const logOut = () => {
+      // 清空用户数据
       userInfo.value = {
         account: "",
         password: "",
         token: "",
       };
+      // 清空购物车数据
+      const carStore = useCarStore();
+      carStore.clearCart();
     };
     // 3. 以对象的格式把state和action return
     return {
