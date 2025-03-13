@@ -85,7 +85,7 @@ import { useCarStore } from '@/stores/car'
 const cartStore = useCarStore()
 
 function delCart(item) {
-  console.log(item)
+  cartStore.delCart(item.skuId)
 }
 function singleCheck(i) {
   cartStore.singleCheck(i.skuId)

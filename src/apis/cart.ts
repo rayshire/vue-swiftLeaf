@@ -12,9 +12,20 @@ export const insertCartAPI = ({ skuId, count }) => {
   });
 };
 // 获取新的购物车列表
-export const updateNewList = () => {
+export const getCartlistAPI = () => {
   return httpI({
     url: "/member/cart",
     method: "GET",
+  });
+};
+
+// 删除购物车
+export const deleteCartAPI = (ids: string[]) => {
+  return httpI({
+    url: "/member/cart",
+    method: "DELETE",
+    data: {
+      ids,
+    },
   });
 };

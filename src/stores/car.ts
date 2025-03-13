@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useUserStore } from "./user";
-import { insertCartAPI, updateNewList } from "@/apis/cart";
+import { insertCartAPI, getCartlistAPI, deleteCartAPI } from "@/apis/cart";
 
 export const useCarStore = defineStore(
   "car",
@@ -9,19 +9,23 @@ export const useCarStore = defineStore(
     // 0. 获取用户信息
     const userStore = useUserStore();
     const isLogin = computed(() => userStore.userInfo.token);
-
+    // 获取购物车列表
+    const updateNewList = async () => {
+      // 通过接口获取新的购物车列表
+      //array.from()方法用于将类数组对象和可遍历的对象转换为真正的数组(浅拷贝)
+      const res = await getCartlistAPI();
+      cartList.value = Array.from(JSON.parse(JSON.stringify(res)).result);
+    };
     // 1. 定义state - cartList
     const cartList = ref([]);
     // 2. 定义action - addCart
     const addCart = async (goods) => {
       const { skuId, count } = goods;
-      if (isLogin.value.length > 0) {
+      if (isLogin.value.length > 1) {
         // 登录之后的加入购车逻辑
         await insertCartAPI({ skuId, count });
-        const res = await updateNewList();
+        updateNewList();
         //用登陆购物车数据覆盖本地购物车数据
-        //array.from()方法用于将类数组对象和可遍历的对象转换为真正的数组(浅拷贝)
-        cartList.value = Array.from(JSON.parse(JSON.stringify(res)).result);
       } else {
         const item = cartList.value.find((item) => goods.skuId === item.skuId);
         if (item) {
@@ -45,7 +49,16 @@ export const useCarStore = defineStore(
       // 2. 使用数组的过滤方法 - filter
       // const idx = cartList.value.findIndex((item) => skuId === item.skuId);
       // cartList.value.splice(idx, 1);
-      cartList.value = cartList.value.filter((item) => skuId !== item.skuId);
+      if (isLogin.value.length > 1) {
+        // 调用接口实现接口购物车中的删除功能
+        await deleteCartAPI([skuId]);
+        updateNewList();
+      } else {
+        // 思路：
+        // 1. 找到要删除项的下标值 - splice
+        // 2. 使用数组的过滤方法 - filter
+        cartList.value = cartList.value.filter((item) => skuId !== item.skuId);
+      }
     };
     //定义getters
     // 购物车商品总数
