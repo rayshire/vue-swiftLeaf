@@ -29,3 +29,11 @@ export const deleteCartAPI = (ids: string[]) => {
     },
   });
 };
+//合并购物车
+export const mergeCartAPI = (data) => {
+  return httpI({
+    url: "/member/cart/merge",
+    method: "POST",
+    data: data,
+  });
+};
