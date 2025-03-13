@@ -1,26 +1,42 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { useUserStore } from "./user";
+import { insertCartAPI, updateNewList } from "@/apis/cart";
 
 export const useCarStore = defineStore(
   "car",
   () => {
+    // 0. 获取用户信息
+    const userStore = useUserStore();
+    const isLogin = computed(() => userStore.userInfo.token);
+
     // 1. 定义state - cartList
     const cartList = ref([]);
     // 2. 定义action - addCart
-    const addCart = (goods) => {
-      console.log("添加", goods);
+    const addCart = async (goods) => {
+      const { skuId, count } = goods;
+      if (isLogin.value.length > 0) {
+        // 登录之后的加入购车逻辑
+        await insertCartAPI({ skuId, count });
+        const res = await updateNewList();
+        //用登陆购物车数据覆盖本地购物车数据
+        //array.from()方法用于将类数组对象和可遍历的对象转换为真正的数组(浅拷贝)
+        cartList.value = Array.from(JSON.parse(JSON.stringify(res)).result);
+      } else {
+        const item = cartList.value.find((item) => goods.skuId === item.skuId);
+        if (item) {
+          // 找到了
+          item.count++;
+        } else {
+          // 没找到
+          cartList.value.push(goods);
+        }
+      }
+      // console.log("添加", goods);
       // 添加购物车操作
       // 已添加过 - count + 1
       // 没有添加过 - 直接push
       // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过
-      const item = cartList.value.find((item) => goods.skuId === item.skuId);
-      if (item) {
-        // 找到了
-        item.count++;
-      } else {
-        // 没找到
-        cartList.value.push(goods);
-      }
     };
     // 删除购物车
     const delCart = async (skuId) => {
