@@ -36,10 +36,20 @@
 
 
 <script setup lang="ts" name="Pay">
-const payInfo = {
-
+import { getOrderAPI } from '@/apis/pay'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+// 获取订单数据
+const route = useRoute()
+const payInfo = ref({
   payMoney: 0
+})
+const getPayInfo = async () => {
+  const res = await getOrderAPI(route.query.id)
+  payInfo.value = JSON.parse(JSON.stringify(res)).result
 }
+onMounted(() => getPayInfo())
+
 </script>
 
 <style scoped lang="scss">

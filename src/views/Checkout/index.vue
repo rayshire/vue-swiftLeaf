@@ -90,7 +90,7 @@
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
         </div>
       </div>
     </div>
@@ -121,6 +121,39 @@
 <script setup lang="ts" name="Checkout">
 import { getCheckoutInfoAPI } from '@/apis/checkout'
 import { ref, onMounted } from 'vue'
+import { createOrderAPI } from '@/apis/checkout'
+import { useRouter } from 'vue-router'
+import { useCarStore } from '@/stores/car'
+
+const CarStore = useCarStore()
+const router = useRouter()
+// 创建订单
+const createOrder = async () => {
+  // 调用接口创建订单
+  const res = await createOrderAPI({
+    deliveryTimeType: 1,
+    payType: 1,
+    payChannel: 1,
+    buyerMessage: '',
+    goods: checkInfo.value.goods.map(item => {
+      return {
+        skuId: item.skuId,
+        count: item.count
+      }
+    }),
+    addressId: curAddress.value.id
+  })
+  const orderId = JSON.parse(JSON.stringify(res)).result.id
+  // 跳转到支付页面
+  router.push({
+    path: '/pay',
+    query: {
+      id: orderId
+    }
+  })
+  // 清空购物车
+  CarStore.clearCart()
+}
 
 const activeAddress = ref({
   id: 1875820496541454338,
@@ -157,16 +190,16 @@ const checkInfo = ref({
     addressTags: "kk22"
   },],  // 地址列表
   goods: [{
-    id: 4027998,
-    name: "亮碟多效合一洗涤块495g",
-    picture: "https://yanxuan-item.nosdn.127.net/e07c2b63765cf9f4a46d489c6e09c1c1.jpg",
-    count: 1,
-    skuId: 300486500,
-    attrsText: "finish亮碟多效合一洗涤块495g:495g ",
-    price: 69.90,
-    payPrice: 69.90,
-    totalPrice: 69.90,
-    totalPayPrice: 69.90
+    id: 0,
+    name: "",
+    picture: "1.jpg",
+    count: 0,
+    skuId: 0,
+    attrsText: "",
+    price: 0,
+    payPrice: 0,
+    totalPrice: 0,
+    totalPayPrice: 0
 
   }],  // 商品列表
   summary: {
