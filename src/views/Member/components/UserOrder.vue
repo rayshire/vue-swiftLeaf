@@ -1,6 +1,6 @@
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab切换 -->
       <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
@@ -77,7 +77,8 @@
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination :total="total" @current-change="pageChange" :page-size="params.pageSize" background
+              layout="prev, pager, next" />
           </div>
         </div>
       </div>
@@ -101,12 +102,18 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
+
+// tab切换
+const tabChange = (type) => {
+  params.value.orderState = type
+  getOrderList()
+}
 // 订单列表
 const orderList = ref([])
 const params = ref({
   orderState: 0,
   page: 1,
-  pageSize: 2
+  pageSize: 3
 })
 const total = ref(0)
 // 切换tab
@@ -116,6 +123,11 @@ const getOrderList = async () => {
   orderList.value = res1.result.items
   total.value = res1.result.counts
 }
+const pageChange = (page) => {
+  params.value.page = page
+  getOrderList()
+}
+
 onMounted(() => getOrderList())
 </script>
 
