@@ -88,6 +88,9 @@
 </template>
 
 <script setup lang="ts" name="UserOrder">
+
+import { getUserOrder } from '@/apis/order'
+import { onMounted, ref } from 'vue'
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -99,7 +102,21 @@ const tabTypes = [
   { name: "cancel", label: "已取消" }
 ]
 // 订单列表
-const orderList = []
+const orderList = ref([])
+const params = ref({
+  orderState: 0,
+  page: 1,
+  pageSize: 2
+})
+const total = ref(0)
+// 切换tab
+const getOrderList = async () => {
+  const res = await getUserOrder(params.value)
+  const res1 = JSON.parse(JSON.stringify(res))
+  orderList.value = res1.result.items
+  total.value = res1.result.counts
+}
+onMounted(() => getOrderList())
 </script>
 
 <style scoped lang="scss">
