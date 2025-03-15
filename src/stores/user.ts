@@ -15,6 +15,7 @@ export const useUserStore = defineStore(
       account: "",
       password: "",
       token: "",
+      avatar: "",
     });
     // 2. 定义获取接口数据的action函数
     const getUserInfo = async ({ account, password }) => {
@@ -39,6 +40,7 @@ export const useUserStore = defineStore(
         account: "",
         password: "",
         token: "",
+        avatar: "",
       };
       // 清空购物车数据
       carStore.clearCart();

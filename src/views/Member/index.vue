@@ -64,9 +64,9 @@
         &.router-link-exact-active {
           color: $xtxColor;
 
-          &:before {
-            display: block;
-          }
+          // &:before {
+          //   display: block;
+          // }
         }
 
         &:before {

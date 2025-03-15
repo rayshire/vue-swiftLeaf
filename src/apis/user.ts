@@ -10,3 +10,12 @@ export async function loginApi({ account, password }) {
     },
   });
 }
+
+export const getLikeListAPI = ({ limit = 4 }) => {
+  return httpI({
+    url: "/goods/relevant",
+    params: {
+      limit,
+    },
+  });
+};
