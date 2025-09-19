@@ -201,7 +201,7 @@ async function getGoods() {
     const response = await getDetail(route.params.id);
     // 深拷贝response，解决该死的ts类型检查
     goods.value = JSON.parse(JSON.stringify(response)).result;
-    console.log(goods.value)
+    // console.log(goods.value)
   } catch (error) {
     console.error("获取商品详情失败:", error);
   }

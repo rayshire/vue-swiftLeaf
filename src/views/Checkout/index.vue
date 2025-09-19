@@ -239,6 +239,8 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:color';
+
 .xtx-pay-checkout-page {
   margin-top: 20px;
 
@@ -441,7 +443,7 @@ onMounted(() => {
     &.active,
     &:hover {
       border-color: $xtxColor;
-      background: lighten($xtxColor, 50%);
+      background: color.scale($xtxColor, $lightness: 50%);
     }
 
     >ul {
